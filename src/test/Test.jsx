@@ -5,18 +5,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import TestContext from "./TestContext";
 
-const DatePicker = styled('input')(({ theme }) => ({
-    padding: '10px'
-}));
-
-const Datos = styled('div')(({ theme }) => ({
+const Datos = styled('div')(theme => ({
     width: 'auto',
     padding: '10px',
     backgroundColor: 'pink',
@@ -27,11 +22,21 @@ const Datos = styled('div')(({ theme }) => ({
     }
 }));
 
+const Form = styled('div')(theme => ({
+    padding: '5px',
+    backgroundColor: "#eee",
+    borderRadius: '3px'
+}));
+
+const Text = styled(TextField)(theme => ({
+    margin: '5px 0px',
+}));
+
 const FormNombre = ({state, errors, handleChange, register}) => {
     return (
         <>
         <Typography variant="h6">¿Cual es tu nombre?</Typography>
-        <TextField
+        <Text
             error={errors.nombre && true}
             helperText={errors?.nombre?.message}
             id="outlined-required"
@@ -39,8 +44,8 @@ const FormNombre = ({state, errors, handleChange, register}) => {
             name="nombre"
             {...register("nombre")}
             onChange={e =>handleChange(e)}
-        />
-        <TextField
+            />
+        <Text
             error={errors.segundoNombre && true}
             helperText={errors?.segundoNombre?.message}
             id="outlined-required"
@@ -48,8 +53,8 @@ const FormNombre = ({state, errors, handleChange, register}) => {
             name="segundoNombre"
             {...register("segundoNombre")}
             onChange={e =>handleChange(e)}
-        />
-        <TextField
+            />
+        <Text
             error={errors.apellidoPaterno && true}
             helperText={errors?.apellidoPaterno?.message}
             id="outlined-required"
@@ -57,8 +62,8 @@ const FormNombre = ({state, errors, handleChange, register}) => {
             name="apellidoPaterno"
             {...register("apellidoPaterno")}
             onChange={e =>handleChange(e)}
-        />
-        <TextField
+            />
+        <Text
             error={errors.apellidoMaterno && true}
             helperText={errors?.apellidoMaterno?.message}
             id="outlined-required"
@@ -77,7 +82,7 @@ const FormDate = ({state, errors, handleChange, register}) => {
     return (
         <>
         <Typography variant="h6">¿Cual es tu Fecha de Nacimiento?</Typography>
-        <TextField
+        <Text
             error={errors.date && true}
             helperText={errors?.date?.message}
             id="outlined-required"
@@ -95,7 +100,7 @@ const FormContacto = ({state, errors, handleChange, register}) => {
     return (
         <>
         <Typography variant="h6">Datos de Contacto</Typography>
-        <TextField
+        <Text
             error={errors.email && true}
             helperText={errors?.email?.message}
             id="outlined-required"
@@ -105,7 +110,7 @@ const FormContacto = ({state, errors, handleChange, register}) => {
             {...register("email")}
             onChange={e =>handleChange(e)}
         />
-        <TextField
+        <Text
             error={errors.telefono && true}
             helperText={errors?.telefono?.message}
             id="outlined-required"
@@ -138,7 +143,7 @@ const Test = () => {
         handleCloseSession,
     } = useContext(TestContext);
 
-    const [showNext, setShowNext] = useState({date: false, contacto: false})
+    const [showNext, setShowNext] = useState({nombre: false, date: false, contacto: false})
     const [state, setState] = useState({
         nombre: "",
         segundoNombre: "",
@@ -193,14 +198,14 @@ const Test = () => {
             <Grid container justifyContent="center" alignItems="center" direction="column">
                 <form onSubmit={handleSubmit(onSubmit, onError)}>
                     <Grid item container 
-                        sx={{maxWidth: 310, '& > *':{ margin: '5px 0px'} }} 
+                        sx={{width: 320, '& > *': {margin: '5px 0px'}}} 
                         justifyContent="center" alignItems="stretch" direction="column"
                     >
                         <FormNombre state={state} errors={errors} handleChange={handleChange} register={register} />
 
-                        {showNext.date && (<FormDate state={state} errors={errors} handleChange={handleChange} register={register} />)}
+                        {showNext.nombre && (<FormDate state={state} errors={errors} handleChange={handleChange} register={register} />)}
 
-                        {showNext.contacto && (<FormContacto state={state} errors={errors} handleChange={handleChange} register={register} />)}
+                        {showNext.date && (<FormContacto state={state} errors={errors} handleChange={handleChange} register={register} />)}
 
                         <Button type="submit" variant="contained" color="error" endIcon={<SendIcon />}>
                             Iniciar
